@@ -8,15 +8,15 @@ namespace Generador
 {
  public  class SÍnGlaTÓN
     {
-        private static AcercaDe instance;
+       private static Form1 instance;
 
-        public static AcercaDe getInstance
+        public static Form1 getInstance
         {
             get
             {
                 if (instance == null || instance.IsDisposed)
                 {
-                    instance = new AcercaDe();
+                    instance = new Form1();
                 }
                 return instance;
             }

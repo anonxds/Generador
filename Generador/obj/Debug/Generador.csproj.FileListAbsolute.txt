@@ -1,7 +1,6 @@
 C:\Users\user\source\repos\Generador\Generador\bin\Debug\Generador.exe.config
 C:\Users\user\source\repos\Generador\Generador\bin\Debug\Generador.exe
 C:\Users\user\source\repos\Generador\Generador\bin\Debug\Generador.pdb
-C:\Users\user\source\repos\Generador\Generador\obj\Debug\Generador.csprojAssemblyReference.cache
 C:\Users\user\source\repos\Generador\Generador\obj\Debug\Generador.Form1.resources
 C:\Users\user\source\repos\Generador\Generador\obj\Debug\Generador.Properties.Resources.resources
 C:\Users\user\source\repos\Generador\Generador\obj\Debug\Generador.csproj.GenerateResource.cache
@@ -30,3 +29,4 @@ C:\Users\user\source\repos\Generador\Generador\bin\Debug\MetroFramework.Design.d
 C:\Users\user\source\repos\Generador\Generador\bin\Debug\MetroFramework.dll
 C:\Users\user\source\repos\Generador\Generador\bin\Debug\MetroFramework.Fonts.dll
 C:\Users\user\source\repos\Generador\Generador\obj\Debug\Generador.AcercaDe.resources
+C:\Users\user\source\repos\Generador\Generador\obj\Debug\Generador.csprojAssemblyReference.cache

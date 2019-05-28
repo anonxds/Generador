@@ -9,6 +9,6 @@ namespace Generador.Fabrica
 {
    abstract class DeptFactory
     {
-        public abstract GenerarFormato GetGenerarFormato(string proyecto, string asesor, string nombre, int control, string carrera, int tel, string correo, string empresa);
+        public abstract GenerarFormato GetGenerarFormato(string proyecto, string asesor, string nombre, int control, string carrera, string tel, string correo, string empresa);
     }
 }

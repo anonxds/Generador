@@ -173,6 +173,39 @@
   <ItemGroup>
     <None Include="Resources\logoblack.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reload %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error %284%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error %285%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit %284%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INFO.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

@@ -36,6 +36,7 @@ namespace Generador
             client = new FireSharp.FirebaseClient(config);
             if(client != null)
             {
+                dt.Columns.Add("status");
                 dt.Columns.Add("No. Control");
                 dt.Columns.Add("Nombre Completo");
                 dt.Columns.Add("Proyecto");
@@ -43,9 +44,13 @@ namespace Generador
                 dt.Columns.Add("Asesor");
                 dt.Columns.Add("Carrera");
                 dt.Columns.Add("Correo");
+                dt.Columns.Add("Telefono");
                 dt.Columns.Add("id");                
                 dgvinfo.DataSource = dt;
                 grid();
+                this.dgvinfo.Columns["No. Control"].ReadOnly = true;
+                this.dgvinfo.Columns["status"].ReadOnly = true;
+                this.dgvinfo.Columns["id"].ReadOnly = true;
 
             }
         }
@@ -67,14 +72,16 @@ namespace Generador
                         FirebaseResponse resp2 = await client.GetAsync("estudiante/" + i);
                         info obj2 = resp2.ResultAs<info>();
                         DataRow row = dt.NewRow();
-                        row["No. Control"] = obj2.Control;
-                        row["Nombre Completo"] = obj2.Nombre;
-                        row["Proyecto"] = obj2.Proyecto;
-                        row["Empresa"] = obj2.Empresa;
-                        row["Asesor"] = obj2.Asesor;
-                        row["Carrera"] = obj2.Carrera;
-                        row["Correo"] = obj2.Correo;
-                        row["id"] = obj2.Id;
+                        row["status"] = obj2.status;
+                        row["No. Control"] = obj2.control;
+                        row["Nombre Completo"] = obj2.nombre;
+                        row["Proyecto"] = obj2.proyecto;
+                        row["Empresa"] = obj2.empresa;
+                        row["Asesor"] = obj2.asesor;
+                        row["Carrera"] = obj2.carrera;
+                        row["Correo"] = obj2.correo;
+                        row["Telefono"] = obj2.tel;
+                        row["id"] = obj2.id;
                         dt.Rows.Add(row);
                     }
                     catch
@@ -85,85 +92,182 @@ namespace Generador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se pudo conectar a la base de datos ");
+                MessageBox.Show("No se pudo conectar a la base de datos " + ex);
             }
         }
-
-        private void dgvdatos_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
        
-
-        }
-        private void bngenerar_Click(object sender, EventArgs e)
-        {
-                }
 
         private void btngen_Click(object sender, EventArgs e)
         {
-                int control = int.Parse(lblctl.Text);
-              string nombre = lblnombreD.Text + " "+ lblapelldio.Text;
-            string proyecto = lblproyecto.Text;
-            string empresa = lblempresa.Text;
-            string Asesor = lblasesor.Text;      
-            string carrera = lblcarrera.Text;
-            string correo = lblcorreo.Text;
-            dept = new MetalMecanica();
-                  dept.GetGenerarFormato(proyecto, Asesor, nombre, control, carrera, 3, correo, empresa);
+            if (lblid.Text == " ")
+            {
+                MessageBox.Show("Seleccione un estudiante");
 
+            }
+            else
+            {
+                int control = int.Parse(lblctl.Text);
+                string nombre = lblnombreD.Text;
+                string proyecto = lblproyecto.Text;
+                string empresa = lblempresa.Text;
+                string Asesor = lblasesor.Text;
+                string carrera = lblcarrera.Text;
+                string correo = lblcorreo.Text;
+                string tel = lblcorreoD.Text;
+                dept = new MetalMecanica();
+
+                dept.GetGenerarFormato(proyecto, Asesor, nombre, control, carrera, tel, correo, empresa);
+            }
         }
 
         private async void btneliminar_Click(object sender, EventArgs e)
         {
-            FirebaseResponse res = await client.DeleteAsync("estudiante/"+lblid.Text);
-            FirebaseResponse res2 = await client.DeleteAsync("Control/"+lblctl.Text);
-            grid();
-          lblid.Text = lblctl.Text = lblnombreD.Text = lblproyecto.Text = lblempresa.Text = lblasesor.Text = lblasesor.Text = lblcarrera.Text = lblcorreo.Text = null;
-            MessageBox.Show("Se borro de la base de datos");
+            try
+            {
+                if (lblid.Text == " ")
+                {
+                    MessageBox.Show("Seleccione un estudiante");
 
+                }
+                else
+                {
+                    var count = dgvinfo.Rows
+         .Cast<DataGridViewRow>()
+         .Select(row => row.Cells["No. Control"].Value.ToString())
+         .Count(s => s == lblctl.Text);
+
+                  
+                    if(count == 1)
+                    {
+                        FirebaseResponse res = await client.DeleteAsync("estudiante/" + lblid.Text);
+                        FirebaseResponse res2 = await client.DeleteAsync("Control/" + lblctl.Text);
+                    }
+                    else
+                    {
+                        FirebaseResponse res = await client.DeleteAsync("estudiante/" + lblid.Text);
+                    }
+
+
+                    grid();
+                    lblcorreoD.Text = lblid.Text = lblctl.Text = lblnombreD.Text = lblproyecto.Text = lblempresa.Text = lblasesor.Text = lblasesor.Text = lblcarrera.Text = lblcorreo.Text = null;
+                    MessageBox.Show("Se borro de la base de datos");
+                }
+                }
+            catch
+            {
+                MessageBox.Show("Checar la conexion de internet");
+            }
         }
 
         private void btnrefresj_Click(object sender, EventArgs e)
         {
+         
             grid();
         }
-
-        private void dgvinfo_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-           
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
+      
       
         private void btnacercaDe_Click(object sender, EventArgs e)
         {
             AcercaDe d = new AcercaDe();
             d.Show();
-           //SÍnGlaTÓN.getInstance;
         }
 
         private void txtbuscar_OnValueChanged(object sender, EventArgs e)
         {
-            (dgvinfo.DataSource as DataTable).DefaultView.RowFilter = string.Format("[No. Control] LIKE '%{0}%'", txtbuscar.Text);
+            (dgvinfo.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Nombre completo] like '%{0}%' or [No. Control] like '%{1}%'", txtbuscar.Text,txtbuscar.Text);
 
         }
 
-        private void dgvinfo_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+      
+
+        private void bunifuImageButton1_Click(object sender, EventArgs e)
         {
-            lblctl.Text = dgvinfo.CurrentRow.Cells[0].Value.ToString();
-            lblnombreD.Text = dgvinfo.CurrentRow.Cells[1].Value.ToString();
-            //   lblapelldio.Text = dgvinfo.CurrentRow.Cells[2].Value.ToString();
-            lblproyecto.Text = dgvinfo.CurrentRow.Cells[2].Value.ToString();
-            lblempresa.Text = dgvinfo.CurrentRow.Cells[3].Value.ToString();
-            lblasesor.Text = dgvinfo.CurrentRow.Cells[4].Value.ToString();
-            //  lblempresaD.Text = dgvinfo.CurrentRow.Cells[5].Value.ToString();
-            lblcarrera.Text = dgvinfo.CurrentRow.Cells[5].Value.ToString();
-            lblcorreo.Text = dgvinfo.CurrentRow.Cells[6].Value.ToString();
-            lblid.Text = dgvinfo.CurrentRow.Cells[7].Value.ToString();
+            this.Close();
+        }
+
+       
+
+        private void dgvinfo_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            cbstatus.Text = dgvinfo.CurrentRow.Cells[0].Value.ToString();
+            lblctl.Text = dgvinfo.CurrentRow.Cells[1].Value.ToString();
+            lblnombreD.Text = dgvinfo.CurrentRow.Cells[2].Value.ToString();
+            lblproyecto.Text = dgvinfo.CurrentRow.Cells[3].Value.ToString();
+            lblempresa.Text = dgvinfo.CurrentRow.Cells[4].Value.ToString();
+            lblasesor.Text = dgvinfo.CurrentRow.Cells[5].Value.ToString();
+            lblcarrera.Text = dgvinfo.CurrentRow.Cells[6].Value.ToString();
+            lblcorreo.Text = dgvinfo.CurrentRow.Cells[7].Value.ToString();
+            lblid.Text = dgvinfo.CurrentRow.Cells[9].Value.ToString();
+            lblcorreoD.Text = dgvinfo.CurrentRow.Cells[8].Value.ToString();
 
         }
+
+        private void bunifuImageButton1_MouseHover(object sender, EventArgs e)
+        {
+            metroToolTip1.SetToolTip(bunifuImageButton1, "Cerrar");
+
+        }
+
+        private async void btncambiar_Click(object sender, EventArgs e)
+        {
+            var data = new info
+            {
+                id = lblid.Text,
+                control = lblctl.Text,
+                nombre = lblnombreD.Text,
+                empresa = lblempresa.Text,
+                asesor = lblasesor.Text,
+                proyecto = lblproyecto.Text,
+                carrera = lblcarrera.Text,
+                correo = lblcorreo.Text,
+                tel = lblcorreoD.Text,
+                status = cbstatus.Text,
+            };
+            var s = new info
+            {
+                status = cbstatus.Text,
+
+            };
+            if (lblid.Text == " ")
+            {
+                MessageBox.Show("Seleccione un estudiante");
+
+            }
+            else
+            {
+
+                FirebaseResponse res = await client.UpdateAsync("estudiante/" + lblid.Text, data);
+                FirebaseResponse res2 = await client.UpdateAsync("Control/" + lblctl.Text, s);
+                info resu = res.ResultAs<info>();
+                MessageBox.Show("Datos actualizados");
+                grid();
+            }
+        }
+        public void buscar()
+        {
+            switch (metroComboBox1.Text)
+            {
+                case "Todos":
+                        (dgvinfo.DataSource as DataTable).DefaultView.RowFilter = string.Format("[status] like '%{0}%' or [status] like '%{1}%' or [status] like '%{2}%'", "Pendiente","Aceptado","Rechazado");
+                        break;
+                case "Pendientes":
+                    (dgvinfo.DataSource as DataTable).DefaultView.RowFilter = string.Format("[status] like '%{0}%'", "Pendiente");
+                    break;
+                case "Aceptados":
+                        (dgvinfo.DataSource as DataTable).DefaultView.RowFilter = string.Format("[status] like '%{0}%'", "Aceptado");
+                        break;                    
+                case "Rechazados":
+                    (dgvinfo.DataSource as DataTable).DefaultView.RowFilter = string.Format("[status] like '%{0}%'", "Rechazado");
+                    break;
+            }
+        }
+
+        private void metroComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buscar();
+        }
+
+      
     }
 
     class counter
@@ -172,27 +276,27 @@ namespace Generador
     }
     class info
     {
-        private string numero;
-        private string nombre;
-        private string id;
-        private string carrera;
-        private string control;
-        private string tel;
-        private string empresa;
-        private string asesor;
-        private string proyecto;
-        string correo;
-        string apellido;
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Carrera { get => carrera; set => carrera = value; }
-        public string Control { get => control; set => control = value; }
-        public string Tel { get => tel; set => tel = value; }
-        public string Empresa { get => empresa; set => empresa = value; }
-        public string Asesor { get => asesor; set => asesor = value; }
-        public string Proyecto { get => proyecto; set => proyecto = value; }
-        public string Numero { get => numero; set => numero = value; }
-        public string Correo { get => correo; set => correo = value; }
-        public string Apellido { get => apellido; set => apellido = value; }
-        public string Id { get => id; set => id = value; }
+        private string _numero;
+        private string _nombre;
+        private string _id;
+        private string _carrera;
+        private string _control;
+        private string _tel;
+        private string _empresa;
+        private string _asesor;
+        private string _proyecto;
+   private     string _correo;
+      private  string _status;
+        public string nombre { get => _nombre; set => _nombre = value; }
+        public string carrera { get => _carrera; set => _carrera = value; }
+        public string control { get => _control; set => _control = value; }
+        public string tel { get => _tel; set => _tel = value; }
+        public string empresa { get => _empresa; set => _empresa = value; }
+        public string asesor { get => _asesor; set => _asesor = value; }
+        public string proyecto { get => _proyecto; set => _proyecto = value; }
+        public string numero { get => _numero; set => _numero = value; }
+        public string correo { get => _correo; set => _correo = value; }
+        public string status { get => _status; set => _status = value; }
+        public string id { get => _id; set => _id = value; }
     }
 }
