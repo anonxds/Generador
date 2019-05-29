@@ -89,6 +89,8 @@
             this.dgvinfo.AllowUserToOrderColumns = true;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgvinfo.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvinfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvinfo.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dgvinfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvinfo.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -194,9 +196,9 @@
             this.cbstatus.FormattingEnabled = true;
             this.cbstatus.ItemHeight = 23;
             this.cbstatus.Items.AddRange(new object[] {
-            "Pendiente",
             "Aceptado",
-            "Rechazado"});
+            "Rechazado",
+            "Pendiente"});
             this.cbstatus.Location = new System.Drawing.Point(122, 471);
             this.cbstatus.Name = "cbstatus";
             this.cbstatus.Size = new System.Drawing.Size(191, 29);
@@ -462,6 +464,9 @@
             // 
             // bunifuGradientPanel3
             // 
+            this.bunifuGradientPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.bunifuGradientPanel3.BackColor = System.Drawing.Color.Black;
             this.bunifuGradientPanel3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel3.BackgroundImage")));
             this.bunifuGradientPanel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
